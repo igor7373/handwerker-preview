@@ -355,6 +355,8 @@
       text-align: center;
       color: #ffffff;
       text-shadow: 0 3px 14px rgba(0, 0, 0, 0.85);
+      -webkit-hyphens: auto;
+      hyphens: auto;
     }
 
     .section-desc {
@@ -407,6 +409,10 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
+    }
+
+    #matOptions {
+      grid-template-columns: repeat(3, 1fr);
     }
 
     .calc-option {
@@ -994,6 +1000,9 @@
       .calc-options {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
+      }
+      #matOptions {
+        grid-template-columns: 1fr;
       }
       .calc-result-price {
         font-size: 25px;
@@ -1599,7 +1608,7 @@
 
         <div class="calc-group">
           <label class="calc-label">2. Untergrund &amp; Ausführungspaket:</label>
-          <div class="calc-options" id="matOptions" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="calc-options" id="matOptions">
             <div class="calc-option active" data-mult="1.0">
               <span>Basis-Paket</span>
               <small>Standard-Ausstattung Markenware</small>
