@@ -1959,15 +1959,10 @@
       return false;
     }
 
-    // Owner Offer Modal & Instant Telegram Priority Notification
+    // Owner Offer Modal & Telegram-Signal «Website für 0 € sichern»
     function openOwnerModal() {
       const m = document.getElementById('ownerOfferModal');
       if (m) m.classList.add('active');
-      try {
-        var webhookUrl = 'https://script.google.com/macros/s/AKfycbxC0rVH_n3gpbr8m9J1-Jy7QRZwhajS2gRpkZ7VvUZh9vEf_Fy7uXBCFKDszAMCZXS0dQ/exec';
-        var b = new Image();
-        b.src = webhookUrl + '?slug=penkow&event=open_offer_modal&t=' + Date.now();
-      } catch(e) {}
     }
     function closeOwnerModal() {
       const m = document.getElementById('ownerOfferModal');
@@ -1981,9 +1976,7 @@
       if (btn) btn.style.display = 'none';
       if (succ) succ.style.display = 'block';
       try {
-        var webhookUrl = 'https://script.google.com/macros/s/AKfycbxC0rVH_n3gpbr8m9J1-Jy7QRZwhajS2gRpkZ7VvUZh9vEf_Fy7uXBCFKDszAMCZXS0dQ/exec';
-        var b = new Image();
-        b.src = webhookUrl + '?slug=penkow_CLAIM_0EUR_WEBSITE&action=claim_offer&phone=' + encodeURIComponent(phone) + '&t=' + Date.now();
+        hwSignal('&action=claim_offer&phone=' + encodeURIComponent(phone));
       } catch(err) {}
       return false;
     }
@@ -2004,21 +1997,31 @@
       });
     }
   </script>
-  <!-- Handwerker DE - Echtzeit QR-Scan & Telegram Tracker -->
+  <!-- Handwerker DE — Signal: Scan der Postkarte zählt nur mit dem Firmenschlüssel k aus dem QR-Code -->
   <script>
+  var HW_WEBHOOK = 'https://script.google.com/macros/s/AKfycbxC0rVH_n3gpbr8m9J1-Jy7QRZwhajS2gRpkZ7VvUZh9vEf_Fy7uXBCFKDszAMCZXS0dQ/exec';
+  var HW_SLUG = location.pathname.substring(location.pathname.lastIndexOf('/') + 1).replace('.html', '').toLowerCase() || 'penkow';
+  var HW_QUERY = new URLSearchParams(location.search);
+  try {
+    if (HW_QUERY.get('k')) localStorage.setItem('hw_k_' + HW_SLUG, HW_QUERY.get('k'));
+    if (HW_QUERY.get('igor') === '1') localStorage.setItem('hw_tester', '1');
+  } catch(e) {}
+  function hwStored(name) {
+    try { return localStorage.getItem(name) || ''; } catch(e) { return ''; }
+  }
+  function hwSignal(extra) {
+    var mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? '1' : '0';
+    var tester = hwStored('hw_tester') === '1' ? '&tester=1' : '';
+    new Image().src = HW_WEBHOOK + '?slug=' + encodeURIComponent(HW_SLUG) + '&k=' + encodeURIComponent(hwStored('hw_k_' + HW_SLUG))
+      + '&mobile=' + mobile + tester + (extra || '') + '&t=' + Date.now();
+  }
   (function() {
     try {
-      var path = window.location.pathname;
-      var slug = path.substring(path.lastIndexOf('/') + 1).replace('.html', '').toLowerCase() || 'penkow';
-      var storageKey = 'lx_scan_reported_' + slug;
-      if (!localStorage.getItem(storageKey)) {
-        localStorage.setItem(storageKey, new Date().toISOString());
-        var webhookUrl = 'https://script.google.com/macros/s/AKfycbxC0rVH_n3gpbr8m9J1-Jy7QRZwhajS2gRpkZ7VvUZh9vEf_Fy7uXBCFKDszAMCZXS0dQ/exec';
-        var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? '1' : '0';
-        var beaconUrl = webhookUrl + '?slug=' + encodeURIComponent(slug) + '&mobile=' + isMobile + '&t=' + Date.now();
-        var beacon = new Image();
-        beacon.src = beaconUrl;
-      }
+      if (!HW_QUERY.get('k')) return;
+      var tester = hwStored('hw_tester') === '1';
+      if (!tester && hwStored('hw_scan_' + HW_SLUG)) return;
+      if (!tester) localStorage.setItem('hw_scan_' + HW_SLUG, new Date().toISOString());
+      hwSignal('');
     } catch(e) {}
   })();
   </script>
