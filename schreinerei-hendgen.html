@@ -7,8 +7,8 @@
   <title>Schreinerei Hendgen — Tischlerarbeiten in 56072 Koblenz</title>
   <style>
     :root {
-      --primary: #4f3527;
-      --primary-hover: #3f2a1f;
+      --primary: #b81108;
+      --primary-hover: #930e06;
       --accent: #77a7d0;
       --accent-warm: #fbbf24;
       --emerald: #10b981;
@@ -260,6 +260,8 @@
       letter-spacing: -0.6px;
       color: #ffffff;
       text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
+      /* Langer Ortsname (Duderstadt/Gerblingerode) passt auf dem iPhone sonst nicht in die Zeile */
+      overflow-wrap: anywhere;
     }
 
     .hero-title span {
@@ -745,6 +747,7 @@
       font-weight: 700;
       color: #fff;
       text-decoration: none;
+      overflow-wrap: anywhere;
     }
 
     .express-form {
