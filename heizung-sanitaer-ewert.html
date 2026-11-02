@@ -837,13 +837,10 @@
     /* Einwilligung (§ 25 TDDDG) und Datenschutzerklärung */
     .consent-bar {
       display: none;
-      position: fixed;
-      left: 12px;
-      right: 12px;
-      bottom: 12px;
-      z-index: 140;
+      position: relative;
+      z-index: 2;
       max-width: 720px;
-      margin: 0 auto;
+      margin: 12px auto;
       padding: 14px 16px;
       background: rgba(6, 10, 20, 0.97);
       border: 1px solid rgba(255, 255, 255, 0.18);
@@ -1142,7 +1139,7 @@
       background: rgba(4, 7, 15, 0.85);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 16px;
       overflow-y: auto;
@@ -1239,6 +1236,39 @@
       cursor: pointer;
       box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
     }
+    .owner-modal-lead {
+      font-size: 14px;
+      color: #e2e8f0;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .owner-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 4px 0;
+    }
+    .owner-contact a {
+      flex: 1 1 30%;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #f8fafc;
+      font-size: 14px;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+    }
+    @media (max-width: 768px) {
+      .owner-modal-qr {
+        display: none !important;
+      }
+    }
     .owner-claim-success {
       display: none;
       margin-top: 14px;
@@ -1269,7 +1299,7 @@
         🎁 <strong>Für Herrn Dieter Ewert:</strong> Sichern Sie sich diese fertige Website für <strong>0 € bei Google-Betreuung</strong> &amp; erhalten Sie mehr Aufträge aus Google ohne Werbung!
       </span>
       <button type="button" class="owner-offer-btn" onclick="openOwnerModal()">
-        👉 Website für 0 € sichern &amp; Details ansehen
+        Website für 0 € sichern
       </button>
     </div>
   </div>
@@ -1278,7 +1308,25 @@
     <div class="owner-modal-card">
       <button type="button" class="owner-modal-close" onclick="closeOwnerModal()" aria-label="Schließen">✕</button>
       <span class="owner-modal-badge">Exklusiv für Dieter Ewert • 42855 Remscheid</span>
-      <h2 class="owner-modal-title">Sehr geehrter Herr Ewert, so funktioniert unser Vorschlag für Sie:</h2>
+      <h2 class="owner-modal-title">Sehr geehrter Herr Ewert, Ihre Website für 0 € bei Google-Betreuung</h2>
+      <p class="owner-modal-lead">Sie beauftragen uns mit der Betreuung Ihres Google-Auftritts, wir schalten diese Seite ohne Extrakosten für Sie frei. Ohne Auftrag entstehen Ihnen keine Kosten.</p>
+
+      <form id="ownerClaimForm" onsubmit="return submitOwnerClaim(event)">
+        <label style="display:block;font-size:13px;color:#cbd5e1;margin-bottom:6px;font-weight:600;">Ihre Telefonnummer für den Rückruf:</label>
+        <input type="tel" id="ownerClaimPhone" class="owner-claim-input" value="02191 26141" required>
+        <button type="submit" class="owner-claim-submit" id="ownerClaimBtn">
+          ✅ Ja, Website für 0 € bei Google-Betreuung sichern
+        </button>
+      </form>
+      <div class="owner-claim-success" id="ownerClaimSuccess">
+        🎉 Vielen Dank! Ihre Website ist für Sie reserviert. Wir rufen Sie in Kürze zurück und besprechen alle Details nach Ihren Wünschen.
+      </div>
+      <div class="owner-contact">
+        <a href="https://seoagenturlocal.de/" target="_blank" rel="noopener">Wer wir sind</a>
+        <a href="tel:+4915201623222" onclick="hwPress('anrufen')">Anrufen</a>
+        <a href="https://wa.me/4915201623222" target="_blank" rel="noopener" onclick="hwPress('whatsapp')">WhatsApp</a>
+      </div>
+
       <ul class="owner-modal-steps">
         <li>
           <strong>1. Diese fertige Website gehört Ihnen für 0 € bei Google-Betreuung:</strong>
@@ -1286,15 +1334,15 @@
         </li>
         <li>
           <strong>2. Mehr Kundenaufträge aus Google &amp; Google Maps — ohne bezahlte Werbung:</strong>
-          Wir bringen Ihre neue Website und Ihr Profil in Remscheid und Umgebung ganz nach vorne, damit Kunden bei der Suche direkt bei Ihnen anrufen statt bei der Konkurrenz.
+          Wir kümmern uns um Ihre neue Website und Ihr Profil in Remscheid und Umgebung, damit Kunden Sie bei der Suche finden und direkt bei Ihnen anrufen.
         </li>
         <li>
           <strong>3. Unverbindlich reservieren &amp; freischalten lassen:</strong>
-          Klicken Sie unten auf den grünen Button. Wir melden uns kurz telefonisch bei Ihnen, besprechen Ihre Änderungswünsche und schalten Ihre Seite frei.
+          Klicken Sie oben auf den grünen Button. Wir melden uns kurz telefonisch bei Ihnen, besprechen Ihre Änderungswünsche und schalten Ihre Seite frei.
         </li>
       </ul>
 
-      <div style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(251,191,36,0.45);border-radius:12px;padding:12px 14px;margin-bottom:16px;">
+      <div class="owner-modal-qr" style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(251,191,36,0.45);border-radius:12px;padding:12px 14px;margin-bottom:16px;">
         <div style="width:84px;height:84px;flex-shrink:0;background:#fff;padding:4px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.4);">
           <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -1302,7 +1350,7 @@
  <desc>Zint Generated Symbol</desc>
  <g id="barcode" fill="#000000">
   <rect x="0" y="0" width="41" height="41" fill="#FFFFFF"/>
-  <path d="M4 4h7v1h-7ZM14 4h1v2h-1ZM16 4h1v1h-1ZM20 4h1v1h-1ZM22 4h3v1h-3ZM27 4h1v1h-1ZM30 4h7v1h-7ZM4 5h1v5h-1ZM10 5h1v5h-1ZM12 5h1v1h-1ZM19 5h1v1h-1ZM24 5h2v1h-2ZM30 5h1v5h-1ZM36 5h1v5h-1ZM6 6h3v3h-3ZM16 6h1v1h-1ZM18 6h3v1h-3ZM25 6h1v1h-1ZM27 6h1v1h-1ZM32 6h3v3h-3ZM12 7h3v1h-3ZM16 7h6v1h-6ZM23 7h1v1h-1ZM26 7h3v1h-3ZM13 8h1v1h-1ZM20 8h1v1h-1ZM23 8h3v1h-3ZM27 8h2v1h-2ZM12 9h2v1h-2ZM15 9h2v1h-2ZM18 9h4v1h-4ZM25 9h1v1h-1ZM4 10h7v1h-7ZM12 10h1v1h-1ZM14 10h1v1h-1ZM16 10h1v1h-1ZM18 10h1v1h-1ZM20 10h1v1h-1ZM22 10h1v1h-1ZM24 10h1v1h-1ZM26 10h1v1h-1ZM28 10h1v1h-1ZM30 10h7v1h-7ZM13 11h3v1h-3ZM18 11h2v1h-2ZM23 11h5v1h-5ZM4 12h5v1h-5ZM10 12h4v1h-4ZM15 12h4v1h-4ZM21 12h2v1h-2ZM24 12h1v1h-1ZM26 12h4v1h-4ZM31 12h1v1h-1ZM33 12h1v1h-1ZM35 12h1v1h-1ZM4 13h2v3h-2ZM7 13h1v2h-1ZM9 13h1v1h-1ZM11 13h2v1h-2ZM14 13h1v2h-1ZM16 13h1v1h-1ZM18 13h1v1h-1ZM20 13h5v1h-5ZM27 13h1v1h-1ZM29 13h3v1h-3ZM34 13h3v1h-3ZM10 14h1v1h-1ZM12 14h1v1h-1ZM16 14h2v1h-2ZM19 14h1v1h-1ZM21 14h1v1h-1ZM24 14h1v1h-1ZM26 14h1v1h-1ZM32 14h2v1h-2ZM35 14h1v1h-1ZM9 15h1v1h-1ZM11 15h2v1h-2ZM20 15h1v1h-1ZM24 15h2v1h-2ZM28 15h3v1h-3ZM34 15h1v1h-1ZM6 16h3v1h-3ZM10 16h1v1h-1ZM12 16h6v1h-6ZM21 16h1v1h-1ZM26 16h3v1h-3ZM32 16h2v1h-2ZM5 17h2v1h-2ZM8 17h2v1h-2ZM12 17h2v1h-2ZM15 17h1v1h-1ZM17 17h1v1h-1ZM20 17h6v1h-6ZM27 17h1v1h-1ZM30 17h2v1h-2ZM35 17h2v1h-2ZM4 18h4v1h-4ZM10 18h3v1h-3ZM14 18h1v1h-1ZM18 18h3v1h-3ZM22 18h1v1h-1ZM25 18h2v1h-2ZM28 18h3v1h-3ZM32 18h1v1h-1ZM35 18h1v1h-1ZM7 19h1v1h-1ZM12 19h1v1h-1ZM18 19h2v1h-2ZM22 19h2v1h-2ZM25 19h1v1h-1ZM27 19h1v1h-1ZM30 19h2v1h-2ZM34 19h1v1h-1ZM4 20h2v1h-2ZM8 20h1v1h-1ZM10 20h10v1h-10ZM21 20h1v1h-1ZM24 20h1v1h-1ZM26 20h4v1h-4ZM32 20h1v1h-1ZM35 20h1v1h-1ZM5 21h2v1h-2ZM14 21h2v1h-2ZM20 21h1v1h-1ZM22 21h7v1h-7ZM30 21h2v1h-2ZM33 21h1v1h-1ZM35 21h2v1h-2ZM7 22h1v1h-1ZM9 22h2v1h-2ZM12 22h1v1h-1ZM14 22h1v2h-1ZM16 22h1v1h-1ZM18 22h3v1h-3ZM26 22h1v1h-1ZM28 22h2v1h-2ZM32 22h2v1h-2ZM35 22h1v1h-1ZM4 23h4v1h-4ZM18 23h1v1h-1ZM25 23h6v1h-6ZM34 23h1v1h-1ZM5 24h2v1h-2ZM8 24h3v1h-3ZM12 24h1v1h-1ZM17 24h5v1h-5ZM24 24h1v1h-1ZM26 24h1v1h-1ZM28 24h2v1h-2ZM32 24h1v1h-1ZM35 24h1v1h-1ZM4 25h1v4h-1ZM9 25h1v1h-1ZM13 25h1v1h-1ZM15 25h1v1h-1ZM18 25h1v1h-1ZM20 25h6v1h-6ZM27 25h1v1h-1ZM30 25h2v1h-2ZM33 25h1v1h-1ZM35 25h2v1h-2ZM7 26h2v1h-2ZM10 26h4v1h-4ZM16 26h5v1h-5ZM22 26h1v1h-1ZM24 26h3v2h-3ZM30 26h4v1h-4ZM35 26h1v1h-1ZM6 27h2v1h-2ZM12 27h3v1h-3ZM16 27h1v1h-1ZM18 27h3v1h-3ZM29 27h1v1h-1ZM31 27h1v1h-1ZM33 27h2v1h-2ZM6 28h1v1h-1ZM8 28h1v1h-1ZM10 28h3v1h-3ZM15 28h4v1h-4ZM21 28h1v2h-1ZM23 28h1v2h-1ZM26 28h1v1h-1ZM28 28h5v1h-5ZM36 28h1v2h-1ZM12 29h1v2h-1ZM15 29h1v1h-1ZM25 29h4v1h-4ZM32 29h1v1h-1ZM4 30h7v1h-7ZM16 30h1v1h-1ZM18 30h5v1h-5ZM27 30h2v2h-2ZM30 30h1v1h-1ZM32 30h4v2h-4ZM4 31h1v5h-1ZM10 31h1v5h-1ZM13 31h1v1h-1ZM15 31h1v1h-1ZM18 31h1v1h-1ZM20 31h1v1h-1ZM22 31h2v1h-2ZM25 31h1v1h-1ZM6 32h3v3h-3ZM12 32h2v1h-2ZM15 32h5v1h-5ZM21 32h1v1h-1ZM24 32h1v1h-1ZM26 32h1v1h-1ZM28 32h5v1h-5ZM36 32h1v1h-1ZM12 33h1v1h-1ZM15 33h2v1h-2ZM18 33h1v1h-1ZM20 33h1v1h-1ZM23 33h2v1h-2ZM28 33h2v1h-2ZM32 33h3v1h-3ZM12 34h2v1h-2ZM16 34h2v1h-2ZM19 34h1v1h-1ZM24 34h1v1h-1ZM29 34h2v1h-2ZM33 34h1v1h-1ZM35 34h1v1h-1ZM12 35h1v1h-1ZM20 35h1v1h-1ZM24 35h3v1h-3ZM29 35h1v1h-1ZM32 35h3v1h-3ZM4 36h7v1h-7ZM12 36h3v1h-3ZM17 36h2v1h-2ZM21 36h1v1h-1ZM26 36h3v1h-3ZM32 36h1v1h-1ZM35 36h1v1h-1Z"/>
+  <path d="M4 4h7v1h-7ZM13 4h5v1h-5ZM20 4h1v1h-1ZM22 4h6v1h-6ZM30 4h7v1h-7ZM4 5h1v5h-1ZM10 5h1v5h-1ZM13 5h1v1h-1ZM16 5h1v1h-1ZM18 5h3v1h-3ZM24 5h2v1h-2ZM30 5h1v5h-1ZM36 5h1v5h-1ZM6 6h3v3h-3ZM12 6h1v2h-1ZM15 6h1v1h-1ZM18 6h1v1h-1ZM23 6h4v1h-4ZM32 6h3v3h-3ZM15 7h5v1h-5ZM21 7h1v1h-1ZM26 7h1v1h-1ZM28 7h1v1h-1ZM12 8h2v1h-2ZM20 8h1v1h-1ZM23 8h3v1h-3ZM27 8h1v1h-1ZM12 9h1v2h-1ZM14 9h1v2h-1ZM19 9h1v1h-1ZM24 9h1v2h-1ZM4 10h7v1h-7ZM16 10h1v1h-1ZM18 10h1v1h-1ZM20 10h1v1h-1ZM22 10h1v1h-1ZM26 10h1v1h-1ZM28 10h1v1h-1ZM30 10h7v1h-7ZM12 11h3v1h-3ZM18 11h3v1h-3ZM24 11h2v1h-2ZM27 11h2v1h-2ZM4 12h1v1h-1ZM6 12h5v1h-5ZM13 12h2v1h-2ZM16 12h4v1h-4ZM21 12h1v1h-1ZM23 12h1v1h-1ZM26 12h1v1h-1ZM30 12h5v1h-5ZM6 13h1v1h-1ZM9 13h1v1h-1ZM12 13h1v1h-1ZM16 13h2v1h-2ZM20 13h1v1h-1ZM22 13h3v1h-3ZM27 13h1v1h-1ZM30 13h2v1h-2ZM33 13h2v1h-2ZM36 13h1v1h-1ZM4 14h2v1h-2ZM8 14h1v3h-1ZM10 14h4v1h-4ZM18 14h4v1h-4ZM24 14h1v1h-1ZM26 14h1v1h-1ZM30 14h1v2h-1ZM32 14h1v1h-1ZM34 14h2v1h-2ZM5 15h1v1h-1ZM14 15h1v1h-1ZM16 15h1v1h-1ZM20 15h1v1h-1ZM25 15h1v1h-1ZM27 15h1v1h-1ZM32 15h3v1h-3ZM4 16h2v1h-2ZM10 16h1v1h-1ZM13 16h2v1h-2ZM20 16h2v1h-2ZM26 16h1v1h-1ZM29 16h1v1h-1ZM32 16h2v1h-2ZM35 16h1v1h-1ZM4 17h1v1h-1ZM7 17h2v1h-2ZM11 17h2v1h-2ZM14 17h1v2h-1ZM17 17h1v1h-1ZM20 17h4v1h-4ZM25 17h1v1h-1ZM27 17h1v1h-1ZM29 17h2v2h-2ZM33 17h4v1h-4ZM8 18h4v1h-4ZM16 18h1v1h-1ZM19 18h1v1h-1ZM21 18h1v1h-1ZM26 18h1v1h-1ZM33 18h3v1h-3ZM6 19h3v1h-3ZM11 19h1v1h-1ZM15 19h5v1h-5ZM22 19h2v1h-2ZM25 19h1v1h-1ZM29 19h4v1h-4ZM34 19h1v1h-1ZM4 20h1v1h-1ZM8 20h1v1h-1ZM10 20h1v1h-1ZM15 20h1v1h-1ZM17 20h1v1h-1ZM21 20h1v1h-1ZM27 20h1v2h-1ZM29 20h1v1h-1ZM31 20h2v1h-2ZM36 20h1v2h-1ZM4 21h6v1h-6ZM11 21h2v1h-2ZM14 21h4v1h-4ZM20 21h1v1h-1ZM23 21h2v1h-2ZM30 21h2v1h-2ZM33 21h2v1h-2ZM6 22h1v1h-1ZM9 22h2v1h-2ZM12 22h3v1h-3ZM16 22h2v1h-2ZM19 22h1v1h-1ZM24 22h2v1h-2ZM28 22h2v1h-2ZM31 22h2v1h-2ZM34 22h2v1h-2ZM4 23h2v1h-2ZM7 23h3v1h-3ZM11 23h3v1h-3ZM16 23h1v1h-1ZM19 23h2v1h-2ZM23 23h4v1h-4ZM29 23h1v1h-1ZM31 23h4v1h-4ZM36 23h1v1h-1ZM8 24h9v1h-9ZM21 24h1v1h-1ZM23 24h2v2h-2ZM26 24h1v1h-1ZM28 24h2v1h-2ZM31 24h3v1h-3ZM35 24h2v1h-2ZM4 25h1v4h-1ZM6 25h2v2h-2ZM11 25h3v1h-3ZM15 25h3v1h-3ZM20 25h1v1h-1ZM26 25h3v1h-3ZM30 25h1v1h-1ZM33 25h1v2h-1ZM36 25h1v1h-1ZM10 26h1v1h-1ZM12 26h3v1h-3ZM19 26h1v1h-1ZM24 26h1v1h-1ZM26 26h1v1h-1ZM29 26h1v2h-1ZM35 26h1v1h-1ZM7 27h3v1h-3ZM11 27h1v1h-1ZM13 27h6v1h-6ZM20 27h1v1h-1ZM22 27h1v1h-1ZM24 27h2v1h-2ZM27 27h1v1h-1ZM33 27h2v1h-2ZM36 27h1v1h-1ZM6 28h1v1h-1ZM9 28h4v1h-4ZM14 28h5v1h-5ZM21 28h1v1h-1ZM26 28h1v1h-1ZM28 28h5v1h-5ZM35 28h2v1h-2ZM12 29h3v1h-3ZM17 29h2v1h-2ZM20 29h1v1h-1ZM23 29h6v1h-6ZM32 29h1v2h-1ZM34 29h1v2h-1ZM36 29h1v1h-1ZM4 30h7v1h-7ZM13 30h2v1h-2ZM16 30h1v1h-1ZM18 30h2v1h-2ZM21 30h2v1h-2ZM24 30h5v1h-5ZM30 30h1v1h-1ZM4 31h1v5h-1ZM10 31h1v5h-1ZM12 31h2v1h-2ZM15 31h1v1h-1ZM18 31h1v1h-1ZM22 31h1v1h-1ZM24 31h2v1h-2ZM27 31h2v1h-2ZM32 31h3v1h-3ZM6 32h3v3h-3ZM12 32h1v1h-1ZM14 32h1v1h-1ZM17 32h1v1h-1ZM19 32h1v1h-1ZM21 32h1v1h-1ZM26 32h1v1h-1ZM28 32h6v1h-6ZM35 32h2v2h-2ZM12 33h2v1h-2ZM15 33h1v1h-1ZM18 33h1v1h-1ZM23 33h3v1h-3ZM29 33h1v1h-1ZM32 33h1v1h-1ZM12 34h1v1h-1ZM15 34h3v2h-3ZM19 34h1v1h-1ZM24 34h1v1h-1ZM27 34h1v1h-1ZM30 34h2v1h-2ZM34 34h1v1h-1ZM19 35h2v1h-2ZM25 35h2v1h-2ZM29 35h2v1h-2ZM32 35h3v1h-3ZM4 36h7v1h-7ZM12 36h1v1h-1ZM14 36h2v1h-2ZM17 36h1v1h-1ZM19 36h3v1h-3ZM26 36h3v1h-3ZM30 36h2v1h-2ZM35 36h1v1h-1Z"/>
  </g>
 </svg>
 
@@ -1310,19 +1358,8 @@
         <div style="font-size:13px;color:#e2e8f0;line-height:1.4;">
           <strong style="color:#fbbf24;display:block;font-size:13.5px;margin-bottom:3px;">📱 Auf dem Smartphone ansehen:</strong>
           Scannen Sie diesen QR-Code mit Ihrer Handykamera, um die Seite direkt auf Ihrem Smartphone zu öffnen:<br>
-          <span style="color:#34d399;font-weight:700;font-size:12px;word-break:break-all;">https://igor7373.github.io/handwerker-preview/heizung-sanitaer-ewert.html</span>
+          <span style="color:#34d399;font-weight:700;font-size:12px;word-break:break-all;">https://entwurf.seoagenturlocal.de/heizung-sanitaer-ewert.html</span>
         </div>
-      </div>
-
-      <form id="ownerClaimForm" onsubmit="return submitOwnerClaim(event)">
-        <label style="display:block;font-size:13px;color:#cbd5e1;margin-bottom:6px;font-weight:600;">Ihre Telefonnummer für die kurze Abstimmung (Festnetz oder Mobil):</label>
-        <input type="tel" id="ownerClaimPhone" class="owner-claim-input" value="02191 26141" required>
-        <button type="submit" class="owner-claim-submit" id="ownerClaimBtn">
-          ✅ Ja, Website für 0 € bei Google-Betreuung sichern &amp; mehr Google-Aufträge erhalten
-        </button>
-      </form>
-      <div class="owner-claim-success" id="ownerClaimSuccess">
-        🎉 Vielen Dank! Ihre Website ist für Sie reserviert. Wir melden uns in Kürze telefonisch bei Ihnen, um alle Details nach Ihren Wünschen einzurichten.
       </div>
     </div>
   </div>
@@ -1366,6 +1403,14 @@
           <div class="highlight-item">✔ Direkt beim Inhaber anrufen</div>
           <div class="highlight-item">✔ Betrieb in 42855 Remscheid</div>
           <div class="highlight-item">✔ Richtwert sofort online</div>
+        </div>
+      </div>
+
+      <div class="consent-bar" id="consentBar" role="dialog" aria-label="Speicherung auf Ihrem Gerät">
+        <p><strong>Speicherung auf Ihrem Gerät:</strong> Darf diese Seite in Ihrem Browser speichern, dass Sie sie über den QR-Code unserer Postkarte geöffnet haben? So wird derselbe Aufruf nicht doppelt gezählt. Ohne Ihre Zustimmung speichert die Seite nichts auf Ihrem Gerät. <a href="#datenschutz">Datenschutzerklärung</a></p>
+        <div class="consent-actions">
+          <button type="button" onclick="hwConsent(true)">Akzeptieren</button>
+          <button type="button" onclick="hwConsent(false)">Ablehnen</button>
         </div>
       </div>
 
@@ -1472,7 +1517,7 @@
   <footer id="impressum">
     <div class="content-container">
       <p><strong>Entwurf für Dieter Ewert, erstellt von SEO Agentur Local.</strong></p>
-      <p><strong>Impressum gem. § 5 DDG (Anbieter dieser Seite):</strong> SEO Agentur Local • Inhaber: Petro Teperik • Sonnenberger Straße 32 • 65193 Wiesbaden • Tel.: +49 1520 1623222 • E-Mail: mastercleanpro.info@gmail.com • seoagenturlocal.de</p>
+      <p><strong>Impressum gem. § 5 DDG (Anbieter dieser Seite):</strong> SEO Agentur Local • Inhaber: Petro Teperik • Sonnenberger Straße 32 • 65193 Wiesbaden • Tel.: +49 1520 1623222 • E-Mail: info@seoagenturlocal.de • seoagenturlocal.de</p>
       <div class="footer-links"><a href="#datenschutz">Datenschutzerklärung</a></div>
     </div>
   </footer>
@@ -1480,25 +1525,18 @@
   <section id="datenschutz" class="legal">
     <div class="content-container">
       <h2>Datenschutzerklärung</h2>
-      <p><strong>Verantwortlicher</strong> (Art. 4 Nr. 7 DSGVO) ist der Anbieter dieser Seite: SEO Agentur Local • Inhaber: Petro Teperik • Sonnenberger Straße 32 • 65193 Wiesbaden • Tel.: +49 1520 1623222 • E-Mail: mastercleanpro.info@gmail.com • seoagenturlocal.de. Diese Seite ist ein Entwurf von SEO Agentur Local für Dieter Ewert.</p>
+      <p><strong>Verantwortlicher</strong> (Art. 4 Nr. 7 DSGVO) ist der Anbieter dieser Seite: SEO Agentur Local • Inhaber: Petro Teperik • Sonnenberger Straße 32 • 65193 Wiesbaden • Tel.: +49 1520 1623222 • E-Mail: info@seoagenturlocal.de • seoagenturlocal.de. Diese Seite ist ein Entwurf von SEO Agentur Local für Dieter Ewert.</p>
       <p><strong>Postkarte an Dieter Ewert.</strong> Firmenname, Name des Inhabers und Geschäftsanschrift haben wir öffentlich zugänglichen Quellen entnommen (Website von Dieter Ewert, Google-Suche, Google Maps). Wir nutzen sie nur, um Dieter Ewert diesen Entwurf per Postkarte anzubieten. Rechtsgrundlage: unser berechtigtes Interesse an Werbung für unsere Leistungen (Art. 6 Abs. 1 lit. f DSGVO). Empfänger: die Druckerei und die Deutsche Post für Druck und Versand. Sie können der Nutzung Ihrer Daten für Werbung jederzeit widersprechen (Art. 21 Abs. 2 DSGVO) — ein Anruf, eine E-Mail oder ein Brief an den Verantwortlichen oben genügt. Danach nutzen wir Ihre Daten nicht mehr für Werbung (Art. 21 Abs. 3 DSGVO) und vermerken nur, dass Sie keine Werbung wünschen. Ohne Widerspruch löschen wir die Angaben, sobald feststeht, dass kein Auftrag zustande kommt.</p>
       <p><strong>Hosting.</strong> Die Seite liegt bei GitHub Pages (GitHub, Inc., San Francisco, USA). Beim Aufruf verarbeitet GitHub technisch nötige Daten wie IP-Adresse, Zeitpunkt und Browser, um die Seite auszuliefern und abzusichern. Rechtsgrundlage: unser berechtigtes Interesse an einer sicheren Bereitstellung (Art. 6 Abs. 1 lit. f DSGVO).</p>
       <p><strong>Aufruf über den QR-Code der Postkarte.</strong> Öffnen Sie die Seite über den QR-Code, meldet sie den Aufruf an unseren Empfänger bei Google (Google Apps Script, Google LLC, USA): Name der Seite, Code der Postkarte, Smartphone oder Computer, Zeitpunkt. Wir erhalten darüber eine Nachricht über Telegram (Telegram FZ-LLC, Dubai, Vereinigte Arabische Emirate) und vermerken den Aufruf in unserer Liste. Zweck: zu erfahren, dass unsere Postkarte angekommen ist, um Dieter Ewert den Entwurf anzubieten. Rechtsgrundlage: unser berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO).</p>
       <p><strong>Anfrage zur Website.</strong> Senden Sie das Formular ab, übermitteln wir die eingetragene Telefonnummer auf demselben Weg (Google, Telegram), um Sie zurückzurufen. Rechtsgrundlage: Ihre Anfrage vor einem Vertrag (Art. 6 Abs. 1 lit. b DSGVO). Sie müssen keine Daten angeben; ohne Telefonnummer können wir Sie nicht zurückrufen.</p>
+      <p><strong>Schaltflächen „Anrufen“ und „WhatsApp“.</strong> Tippen Sie im Anfragefenster auf eine dieser Schaltflächen, meldet die Seite das auf demselben Weg (Google, Telegram) an uns: Name der Seite, Code der Postkarte, welche Schaltfläche, Smartphone oder Computer, Zeitpunkt. Zweck: zu erfahren, dass Dieter Ewert uns erreichen wollte, damit wir uns darum kümmern können. Rechtsgrundlage: unser berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO). „WhatsApp“ öffnet den Dienst der WhatsApp Ireland Limited; dort gelten deren Datenschutzhinweise. „Wer wir sind“ öffnet unsere Website seoagenturlocal.de und meldet nichts an uns.</p>
       <p><strong>Speicherung auf Ihrem Gerät.</strong> Nur wenn Sie „Akzeptieren“ wählen, speichert die Seite im lokalen Speicher Ihres Browsers den Code der Postkarte, den Zeitpunkt des ersten Aufrufs und Ihre Wahl, damit derselbe Aufruf nicht doppelt gemeldet wird. Ohne Ihre Zustimmung speichert die Seite nichts auf Ihrem Gerät. Rechtsgrundlage: Ihre Einwilligung (§ 25 Abs. 1 TDDDG, Art. 6 Abs. 1 lit. a DSGVO). Sie können sie jederzeit mit Wirkung für die Zukunft zurücknehmen (Art. 7 Abs. 3 DSGVO): <button type="button" onclick="hwConsent(false)">Einwilligung widerrufen</button></p>
       <p><strong>Drittländer.</strong> GitHub und Google sitzen in den USA: Grundlage ist der Angemessenheitsbeschluss der EU-Kommission zum EU-U.S. Data Privacy Framework, soweit der Empfänger danach zertifiziert ist, sonst Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO). Für die Vereinigten Arabischen Emirate (Telegram) gibt es keinen Angemessenheitsbeschluss.</p>
-      <p><strong>Speicherdauer.</strong> Meldungen zu Aufruf und Anfrage bewahren wir auf, solange wir mit Dieter Ewert über den Entwurf sprechen, und löschen sie danach, soweit keine gesetzliche Aufbewahrungspflicht besteht. Was die Seite auf Ihrem Gerät gespeichert hat, löschen Sie über die Schaltfläche oben oder in Ihrem Browser.</p>
+      <p><strong>Speicherdauer.</strong> Meldungen zu Aufruf, Schaltflächen und Anfrage bewahren wir auf, solange wir mit Dieter Ewert über den Entwurf sprechen, und löschen sie danach, soweit keine gesetzliche Aufbewahrungspflicht besteht. Was die Seite auf Ihrem Gerät gespeichert hat, löschen Sie über die Schaltfläche oben oder in Ihrem Browser.</p>
       <p><strong>Ihre Rechte.</strong> Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen die Verarbeitung aus berechtigtem Interesse (Art. 21 DSGVO) — wenden Sie sich dafür an den Verantwortlichen oben. Sie können sich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO). Eine automatisierte Entscheidung im Einzelfall findet nicht statt.</p>
     </div>
   </section>
-
-  <div class="consent-bar" id="consentBar" role="dialog" aria-label="Speicherung auf Ihrem Gerät">
-    <p><strong>Speicherung auf Ihrem Gerät:</strong> Darf diese Seite in Ihrem Browser speichern, dass Sie sie über den QR-Code unserer Postkarte geöffnet haben? So wird derselbe Aufruf nicht doppelt gezählt. Ohne Ihre Zustimmung speichert die Seite nichts auf Ihrem Gerät. <a href="#datenschutz">Datenschutzerklärung</a></p>
-    <div class="consent-actions">
-      <button type="button" onclick="hwConsent(true)">Akzeptieren</button>
-      <button type="button" onclick="hwConsent(false)">Ablehnen</button>
-    </div>
-  </div>
 
   <div class="sticky-bottom-bar">
     <div class="sticky-bottom-inner">
@@ -1589,9 +1627,9 @@
     function submitOwnerClaim(e) {
       e.preventDefault();
       var phone = document.getElementById('ownerClaimPhone').value;
-      var btn = document.getElementById('ownerClaimBtn');
+      var form = document.getElementById('ownerClaimForm');
       var succ = document.getElementById('ownerClaimSuccess');
-      if (btn) btn.style.display = 'none';
+      if (form) form.style.display = 'none';
       if (succ) succ.style.display = 'block';
       try {
         hwSignal('&action=claim_offer&phone=' + encodeURIComponent(phone));
@@ -1645,6 +1683,9 @@
     var tester = HW_TESTER ? '&tester=1' : '';
     new Image().src = HW_WEBHOOK + '?slug=' + encodeURIComponent(HW_SLUG) + '&k=' + encodeURIComponent(HW_KEY)
       + '&mobile=' + mobile + tester + (extra || '') + '&t=' + Date.now();
+  }
+  function hwPress(name) {
+    hwSignal('&action=button&button=' + name);
   }
   (function() {
     var consented = hwStored('hw_consent_' + HW_SLUG) === '1';

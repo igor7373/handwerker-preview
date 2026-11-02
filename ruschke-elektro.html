@@ -837,13 +837,10 @@
     /* Einwilligung (§ 25 TDDDG) und Datenschutzerklärung */
     .consent-bar {
       display: none;
-      position: fixed;
-      left: 12px;
-      right: 12px;
-      bottom: 12px;
-      z-index: 140;
+      position: relative;
+      z-index: 2;
       max-width: 720px;
-      margin: 0 auto;
+      margin: 12px auto;
       padding: 14px 16px;
       background: rgba(6, 10, 20, 0.97);
       border: 1px solid rgba(255, 255, 255, 0.18);
@@ -1142,7 +1139,7 @@
       background: rgba(4, 7, 15, 0.85);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 16px;
       overflow-y: auto;
@@ -1239,6 +1236,39 @@
       cursor: pointer;
       box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
     }
+    .owner-modal-lead {
+      font-size: 14px;
+      color: #e2e8f0;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .owner-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 4px 0;
+    }
+    .owner-contact a {
+      flex: 1 1 30%;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #f8fafc;
+      font-size: 14px;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+    }
+    @media (max-width: 768px) {
+      .owner-modal-qr {
+        display: none !important;
+      }
+    }
     .owner-claim-success {
       display: none;
       margin-top: 14px;
@@ -1269,7 +1299,7 @@
         🎁 <strong>Für Frau Kerstin Ruschke:</strong> Sichern Sie sich diese fertige Website für <strong>0 € bei Google-Betreuung</strong> &amp; erhalten Sie mehr Aufträge aus Google ohne Werbung!
       </span>
       <button type="button" class="owner-offer-btn" onclick="openOwnerModal()">
-        👉 Website für 0 € sichern &amp; Details ansehen
+        Website für 0 € sichern
       </button>
     </div>
   </div>
@@ -1278,7 +1308,25 @@
     <div class="owner-modal-card">
       <button type="button" class="owner-modal-close" onclick="closeOwnerModal()" aria-label="Schließen">✕</button>
       <span class="owner-modal-badge">Exklusiv für Kerstin Ruschke • 44653 Herne</span>
-      <h2 class="owner-modal-title">Sehr geehrte Frau Ruschke, so funktioniert unser Vorschlag für Sie:</h2>
+      <h2 class="owner-modal-title">Sehr geehrte Frau Ruschke, Ihre Website für 0 € bei Google-Betreuung</h2>
+      <p class="owner-modal-lead">Sie beauftragen uns mit der Betreuung Ihres Google-Auftritts, wir schalten diese Seite ohne Extrakosten für Sie frei. Ohne Auftrag entstehen Ihnen keine Kosten.</p>
+
+      <form id="ownerClaimForm" onsubmit="return submitOwnerClaim(event)">
+        <label style="display:block;font-size:13px;color:#cbd5e1;margin-bottom:6px;font-weight:600;">Ihre Telefonnummer für den Rückruf:</label>
+        <input type="tel" id="ownerClaimPhone" class="owner-claim-input" value="+49 (0) 2325 988160" required>
+        <button type="submit" class="owner-claim-submit" id="ownerClaimBtn">
+          ✅ Ja, Website für 0 € bei Google-Betreuung sichern
+        </button>
+      </form>
+      <div class="owner-claim-success" id="ownerClaimSuccess">
+        🎉 Vielen Dank! Ihre Website ist für Sie reserviert. Wir rufen Sie in Kürze zurück und besprechen alle Details nach Ihren Wünschen.
+      </div>
+      <div class="owner-contact">
+        <a href="https://seoagenturlocal.de/" target="_blank" rel="noopener">Wer wir sind</a>
+        <a href="tel:+4915201623222" onclick="hwPress('anrufen')">Anrufen</a>
+        <a href="https://wa.me/4915201623222" target="_blank" rel="noopener" onclick="hwPress('whatsapp')">WhatsApp</a>
+      </div>
+
       <ul class="owner-modal-steps">
         <li>
           <strong>1. Diese fertige Website gehört Ihnen für 0 € bei Google-Betreuung:</strong>
@@ -1286,15 +1334,15 @@
         </li>
         <li>
           <strong>2. Mehr Kundenaufträge aus Google &amp; Google Maps — ohne bezahlte Werbung:</strong>
-          Wir bringen Ihre neue Website und Ihr Profil in Herne und Umgebung ganz nach vorne, damit Kunden bei der Suche direkt bei Ihnen anrufen statt bei der Konkurrenz.
+          Wir kümmern uns um Ihre neue Website und Ihr Profil in Herne und Umgebung, damit Kunden Sie bei der Suche finden und direkt bei Ihnen anrufen.
         </li>
         <li>
           <strong>3. Unverbindlich reservieren &amp; freischalten lassen:</strong>
-          Klicken Sie unten auf den grünen Button. Wir melden uns kurz telefonisch bei Ihnen, besprechen Ihre Änderungswünsche und schalten Ihre Seite frei.
+          Klicken Sie oben auf den grünen Button. Wir melden uns kurz telefonisch bei Ihnen, besprechen Ihre Änderungswünsche und schalten Ihre Seite frei.
         </li>
       </ul>
 
-      <div style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(251,191,36,0.45);border-radius:12px;padding:12px 14px;margin-bottom:16px;">
+      <div class="owner-modal-qr" style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(251,191,36,0.45);border-radius:12px;padding:12px 14px;margin-bottom:16px;">
         <div style="width:84px;height:84px;flex-shrink:0;background:#fff;padding:4px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.4);">
           <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -1302,7 +1350,7 @@
  <desc>Zint Generated Symbol</desc>
  <g id="barcode" fill="#000000">
   <rect x="0" y="0" width="41" height="41" fill="#FFFFFF"/>
-  <path d="M4 4h7v1h-7ZM13 4h1v1h-1ZM18 4h1v1h-1ZM20 4h1v1h-1ZM22 4h3v1h-3ZM27 4h1v1h-1ZM30 4h7v1h-7ZM4 5h1v5h-1ZM10 5h1v5h-1ZM12 5h2v1h-2ZM15 5h3v1h-3ZM19 5h1v1h-1ZM24 5h2v1h-2ZM30 5h1v5h-1ZM36 5h1v5h-1ZM6 6h3v3h-3ZM13 6h3v1h-3ZM19 6h2v1h-2ZM25 6h1v1h-1ZM27 6h1v1h-1ZM32 6h3v3h-3ZM12 7h2v1h-2ZM15 7h1v1h-1ZM17 7h5v1h-5ZM23 7h1v1h-1ZM26 7h3v1h-3ZM14 8h1v3h-1ZM16 8h2v1h-2ZM20 8h1v1h-1ZM23 8h3v1h-3ZM27 8h2v1h-2ZM12 9h1v2h-1ZM17 9h5v1h-5ZM25 9h1v1h-1ZM4 10h7v1h-7ZM16 10h1v2h-1ZM18 10h1v2h-1ZM20 10h1v1h-1ZM22 10h1v1h-1ZM24 10h1v1h-1ZM26 10h1v1h-1ZM28 10h1v1h-1ZM30 10h7v1h-7ZM23 11h5v1h-5ZM4 12h5v1h-5ZM10 12h5v1h-5ZM16 12h2v1h-2ZM21 12h2v1h-2ZM24 12h1v1h-1ZM26 12h4v1h-4ZM31 12h1v1h-1ZM33 12h1v1h-1ZM35 12h1v1h-1ZM5 13h1v1h-1ZM7 13h3v1h-3ZM13 13h1v2h-1ZM17 13h1v1h-1ZM20 13h5v1h-5ZM27 13h1v1h-1ZM29 13h3v1h-3ZM34 13h3v1h-3ZM4 14h1v1h-1ZM6 14h1v1h-1ZM9 14h3v1h-3ZM15 14h7v1h-7ZM24 14h1v1h-1ZM26 14h1v1h-1ZM32 14h2v1h-2ZM35 14h1v1h-1ZM5 15h5v1h-5ZM11 15h5v1h-5ZM19 15h2v1h-2ZM24 15h2v1h-2ZM28 15h3v1h-3ZM34 15h1v1h-1ZM5 16h1v1h-1ZM9 16h2v1h-2ZM13 16h1v1h-1ZM15 16h1v1h-1ZM17 16h3v1h-3ZM21 16h1v1h-1ZM26 16h3v1h-3ZM32 16h2v1h-2ZM4 17h1v1h-1ZM6 17h4v1h-4ZM11 17h1v1h-1ZM13 17h2v1h-2ZM16 17h2v1h-2ZM20 17h1v1h-1ZM23 17h3v1h-3ZM27 17h1v1h-1ZM30 17h2v1h-2ZM35 17h2v1h-2ZM6 18h1v1h-1ZM8 18h1v1h-1ZM10 18h3v1h-3ZM19 18h1v1h-1ZM21 18h2v1h-2ZM25 18h2v1h-2ZM28 18h3v1h-3ZM32 18h1v1h-1ZM35 18h1v1h-1ZM5 19h5v1h-5ZM11 19h2v1h-2ZM14 19h1v1h-1ZM16 19h1v1h-1ZM19 19h2v1h-2ZM22 19h2v1h-2ZM25 19h1v1h-1ZM27 19h1v1h-1ZM30 19h2v1h-2ZM34 19h1v1h-1ZM6 20h1v1h-1ZM10 20h1v1h-1ZM13 20h1v1h-1ZM16 20h3v1h-3ZM21 20h1v1h-1ZM24 20h1v1h-1ZM26 20h4v1h-4ZM32 20h1v1h-1ZM35 20h1v1h-1ZM5 21h1v1h-1ZM7 21h1v1h-1ZM9 21h1v1h-1ZM12 21h3v1h-3ZM18 21h1v1h-1ZM20 21h1v1h-1ZM23 21h6v1h-6ZM30 21h2v1h-2ZM33 21h1v1h-1ZM35 21h2v1h-2ZM7 22h2v1h-2ZM10 22h1v1h-1ZM13 22h4v1h-4ZM18 22h3v1h-3ZM26 22h1v1h-1ZM28 22h2v1h-2ZM32 22h2v1h-2ZM35 22h1v1h-1ZM5 23h3v1h-3ZM9 23h1v1h-1ZM11 23h1v1h-1ZM15 23h1v1h-1ZM19 23h2v1h-2ZM25 23h6v1h-6ZM34 23h1v1h-1ZM6 24h1v1h-1ZM8 24h1v1h-1ZM10 24h1v1h-1ZM13 24h3v1h-3ZM17 24h3v1h-3ZM21 24h1v1h-1ZM24 24h1v1h-1ZM26 24h1v1h-1ZM28 24h2v1h-2ZM32 24h1v1h-1ZM35 24h1v1h-1ZM4 25h2v1h-2ZM9 25h1v1h-1ZM12 25h2v1h-2ZM16 25h2v1h-2ZM20 25h1v1h-1ZM23 25h3v1h-3ZM27 25h1v1h-1ZM30 25h2v1h-2ZM33 25h1v1h-1ZM35 25h2v1h-2ZM4 26h1v3h-1ZM6 26h1v1h-1ZM10 26h1v1h-1ZM14 26h1v2h-1ZM18 26h5v1h-5ZM24 26h3v2h-3ZM30 26h4v1h-4ZM35 26h1v1h-1ZM6 27h4v1h-4ZM11 27h2v1h-2ZM16 27h1v1h-1ZM18 27h3v1h-3ZM29 27h1v1h-1ZM31 27h1v1h-1ZM33 27h2v1h-2ZM10 28h1v1h-1ZM12 28h3v1h-3ZM16 28h3v1h-3ZM21 28h1v1h-1ZM23 28h1v1h-1ZM26 28h1v1h-1ZM28 28h5v1h-5ZM36 28h1v2h-1ZM12 29h2v2h-2ZM17 29h1v1h-1ZM22 29h2v1h-2ZM25 29h4v1h-4ZM32 29h1v1h-1ZM4 30h7v1h-7ZM15 30h2v1h-2ZM18 30h5v1h-5ZM27 30h2v2h-2ZM30 30h1v1h-1ZM32 30h4v1h-4ZM4 31h1v5h-1ZM10 31h1v5h-1ZM13 31h3v1h-3ZM19 31h2v1h-2ZM23 31h1v1h-1ZM25 31h1v1h-1ZM32 31h3v1h-3ZM36 31h1v1h-1ZM6 32h3v3h-3ZM12 32h1v3h-1ZM14 32h2v1h-2ZM19 32h1v1h-1ZM21 32h1v1h-1ZM24 32h1v1h-1ZM26 32h1v1h-1ZM28 32h5v1h-5ZM16 33h2v1h-2ZM20 33h5v1h-5ZM28 33h2v1h-2ZM32 33h3v1h-3ZM14 34h1v1h-1ZM17 34h4v1h-4ZM22 34h1v2h-1ZM24 34h1v1h-1ZM29 34h2v1h-2ZM33 34h1v1h-1ZM35 34h1v1h-1ZM12 35h2v1h-2ZM16 35h2v1h-2ZM24 35h3v1h-3ZM29 35h1v1h-1ZM32 35h3v1h-3ZM4 36h7v1h-7ZM12 36h1v1h-1ZM14 36h1v1h-1ZM16 36h1v1h-1ZM18 36h1v1h-1ZM21 36h1v1h-1ZM26 36h3v1h-3ZM32 36h1v1h-1ZM35 36h1v1h-1Z"/>
+  <path d="M4 4h7v1h-7ZM12 4h2v1h-2ZM16 4h1v2h-1ZM20 4h1v1h-1ZM22 4h3v1h-3ZM26 4h2v1h-2ZM30 4h7v1h-7ZM4 5h1v5h-1ZM10 5h1v5h-1ZM12 5h1v1h-1ZM14 5h1v1h-1ZM18 5h1v1h-1ZM20 5h3v1h-3ZM26 5h3v1h-3ZM30 5h1v5h-1ZM36 5h1v5h-1ZM6 6h3v3h-3ZM14 6h7v1h-7ZM24 6h1v2h-1ZM26 6h1v2h-1ZM28 6h1v5h-1ZM32 6h3v3h-3ZM12 7h4v1h-4ZM19 7h1v1h-1ZM21 7h1v1h-1ZM13 8h1v2h-1ZM20 8h2v1h-2ZM23 8h1v1h-1ZM15 9h1v1h-1ZM17 9h1v1h-1ZM19 9h2v1h-2ZM22 9h2v1h-2ZM25 9h2v1h-2ZM4 10h7v1h-7ZM12 10h1v2h-1ZM14 10h1v2h-1ZM16 10h1v2h-1ZM18 10h1v1h-1ZM20 10h1v1h-1ZM22 10h1v1h-1ZM24 10h1v2h-1ZM26 10h1v1h-1ZM30 10h7v1h-7ZM19 11h4v1h-4ZM27 11h2v1h-2ZM4 12h1v2h-1ZM6 12h2v1h-2ZM9 12h3v1h-3ZM14 12h2v1h-2ZM18 12h5v1h-5ZM25 12h1v1h-1ZM28 12h1v1h-1ZM30 12h1v1h-1ZM33 12h1v1h-1ZM35 12h2v1h-2ZM6 13h1v1h-1ZM8 13h1v1h-1ZM11 13h4v1h-4ZM16 13h2v1h-2ZM20 13h6v1h-6ZM27 13h1v1h-1ZM30 13h2v1h-2ZM33 13h2v1h-2ZM36 13h1v1h-1ZM5 14h6v1h-6ZM12 14h2v1h-2ZM15 14h3v1h-3ZM20 14h3v1h-3ZM26 14h3v1h-3ZM30 14h4v1h-4ZM35 14h2v1h-2ZM4 15h4v1h-4ZM12 15h1v1h-1ZM14 15h2v1h-2ZM19 15h1v1h-1ZM22 15h2v1h-2ZM27 15h2v1h-2ZM30 15h2v1h-2ZM33 15h1v1h-1ZM35 15h1v3h-1ZM8 16h1v1h-1ZM10 16h1v1h-1ZM18 16h1v2h-1ZM20 16h2v1h-2ZM26 16h1v1h-1ZM28 16h2v1h-2ZM31 16h3v1h-3ZM4 17h3v1h-3ZM8 17h2v1h-2ZM11 17h1v1h-1ZM15 17h2v1h-2ZM23 17h1v1h-1ZM28 17h1v2h-1ZM31 17h1v1h-1ZM4 18h1v1h-1ZM6 18h1v1h-1ZM8 18h3v1h-3ZM12 18h2v1h-2ZM17 18h1v1h-1ZM21 18h3v1h-3ZM25 18h1v1h-1ZM30 18h2v1h-2ZM33 18h1v1h-1ZM5 19h1v1h-1ZM11 19h1v1h-1ZM13 19h2v2h-2ZM16 19h1v1h-1ZM19 19h1v1h-1ZM22 19h4v2h-4ZM29 19h3v1h-3ZM34 19h1v1h-1ZM4 20h1v1h-1ZM6 20h2v1h-2ZM10 20h2v1h-2ZM28 20h3v1h-3ZM32 20h3v1h-3ZM5 21h1v1h-1ZM7 21h1v1h-1ZM9 21h1v1h-1ZM13 21h1v1h-1ZM16 21h1v1h-1ZM19 21h1v2h-1ZM21 21h2v1h-2ZM24 21h7v1h-7ZM32 21h2v1h-2ZM35 21h2v1h-2ZM5 22h2v1h-2ZM10 22h5v1h-5ZM24 22h1v1h-1ZM28 22h1v1h-1ZM30 22h3v1h-3ZM34 22h2v1h-2ZM6 23h2v1h-2ZM11 23h1v1h-1ZM13 23h1v1h-1ZM16 23h3v1h-3ZM20 23h2v1h-2ZM23 23h1v1h-1ZM26 23h3v1h-3ZM30 23h1v1h-1ZM32 23h1v1h-1ZM5 24h1v1h-1ZM10 24h3v1h-3ZM19 24h2v2h-2ZM25 24h1v1h-1ZM31 24h1v1h-1ZM33 24h2v1h-2ZM36 24h1v2h-1ZM4 25h2v1h-2ZM7 25h2v1h-2ZM12 25h2v2h-2ZM16 25h2v1h-2ZM22 25h2v1h-2ZM26 25h3v1h-3ZM30 25h1v1h-1ZM33 25h1v1h-1ZM6 26h2v1h-2ZM10 26h1v1h-1ZM19 26h1v1h-1ZM21 26h2v1h-2ZM25 26h7v1h-7ZM34 26h3v1h-3ZM5 27h4v1h-4ZM11 27h1v1h-1ZM16 27h1v1h-1ZM18 27h2v1h-2ZM24 27h1v1h-1ZM26 27h1v3h-1ZM28 27h1v1h-1ZM31 27h3v1h-3ZM36 27h1v1h-1ZM4 28h1v1h-1ZM6 28h2v1h-2ZM10 28h1v1h-1ZM12 28h1v1h-1ZM14 28h2v1h-2ZM17 28h2v1h-2ZM21 28h1v1h-1ZM23 28h1v1h-1ZM28 28h6v1h-6ZM35 28h1v1h-1ZM12 29h2v2h-2ZM15 29h2v1h-2ZM18 29h3v1h-3ZM22 29h2v1h-2ZM28 29h1v1h-1ZM32 29h2v1h-2ZM4 30h7v1h-7ZM20 30h5v1h-5ZM27 30h2v2h-2ZM30 30h1v1h-1ZM32 30h1v1h-1ZM35 30h1v1h-1ZM4 31h1v5h-1ZM10 31h1v5h-1ZM12 31h1v1h-1ZM14 31h2v1h-2ZM17 31h2v1h-2ZM21 31h2v1h-2ZM24 31h2v1h-2ZM32 31h3v1h-3ZM6 32h3v3h-3ZM13 32h1v1h-1ZM15 32h2v1h-2ZM20 32h3v1h-3ZM24 32h9v1h-9ZM34 32h2v1h-2ZM12 33h1v1h-1ZM17 33h2v1h-2ZM20 33h1v1h-1ZM24 33h1v1h-1ZM28 33h1v1h-1ZM31 33h1v1h-1ZM36 33h1v1h-1ZM12 34h3v1h-3ZM19 34h2v1h-2ZM27 34h1v1h-1ZM30 34h2v1h-2ZM13 35h1v1h-1ZM15 35h1v1h-1ZM18 35h1v1h-1ZM21 35h4v1h-4ZM26 35h3v1h-3ZM31 35h2v1h-2ZM36 35h1v1h-1ZM4 36h7v1h-7ZM12 36h1v1h-1ZM15 36h2v1h-2ZM21 36h3v1h-3ZM25 36h1v1h-1ZM27 36h1v1h-1ZM30 36h1v1h-1ZM32 36h3v1h-3Z"/>
  </g>
 </svg>
 
@@ -1310,19 +1358,8 @@
         <div style="font-size:13px;color:#e2e8f0;line-height:1.4;">
           <strong style="color:#fbbf24;display:block;font-size:13.5px;margin-bottom:3px;">📱 Auf dem Smartphone ansehen:</strong>
           Scannen Sie diesen QR-Code mit Ihrer Handykamera, um die Seite direkt auf Ihrem Smartphone zu öffnen:<br>
-          <span style="color:#34d399;font-weight:700;font-size:12px;word-break:break-all;">https://igor7373.github.io/handwerker-preview/ruschke-elektro.html</span>
+          <span style="color:#34d399;font-weight:700;font-size:12px;word-break:break-all;">https://entwurf.seoagenturlocal.de/ruschke-elektro.html</span>
         </div>
-      </div>
-
-      <form id="ownerClaimForm" onsubmit="return submitOwnerClaim(event)">
-        <label style="display:block;font-size:13px;color:#cbd5e1;margin-bottom:6px;font-weight:600;">Ihre Telefonnummer für die kurze Abstimmung (Festnetz oder Mobil):</label>
-        <input type="tel" id="ownerClaimPhone" class="owner-claim-input" value="+49 (0) 2325 988160" required>
-        <button type="submit" class="owner-claim-submit" id="ownerClaimBtn">
-          ✅ Ja, Website für 0 € bei Google-Betreuung sichern &amp; mehr Google-Aufträge erhalten
-        </button>
-      </form>
-      <div class="owner-claim-success" id="ownerClaimSuccess">
-        🎉 Vielen Dank! Ihre Website ist für Sie reserviert. Wir melden uns in Kürze telefonisch bei Ihnen, um alle Details nach Ihren Wünschen einzurichten.
       </div>
     </div>
   </div>
@@ -1366,6 +1403,14 @@
           <div class="highlight-item">✔ Direkt beim Inhaber anrufen</div>
           <div class="highlight-item">✔ Betrieb in 44653 Herne</div>
           <div class="highlight-item">✔ Richtwert sofort online</div>
+        </div>
+      </div>
+
+      <div class="consent-bar" id="consentBar" role="dialog" aria-label="Speicherung auf Ihrem Gerät">
+        <p><strong>Speicherung auf Ihrem Gerät:</strong> Darf diese Seite in Ihrem Browser speichern, dass Sie sie über den QR-Code unserer Postkarte geöffnet haben? So wird derselbe Aufruf nicht doppelt gezählt. Ohne Ihre Zustimmung speichert die Seite nichts auf Ihrem Gerät. <a href="#datenschutz">Datenschutzerklärung</a></p>
+        <div class="consent-actions">
+          <button type="button" onclick="hwConsent(true)">Akzeptieren</button>
+          <button type="button" onclick="hwConsent(false)">Ablehnen</button>
         </div>
       </div>
 
@@ -1488,7 +1533,7 @@
   <footer id="impressum">
     <div class="content-container">
       <p><strong>Entwurf für Kerstin Ruschke, erstellt von SEO Agentur Local.</strong></p>
-      <p><strong>Impressum gem. § 5 DDG (Anbieter dieser Seite):</strong> SEO Agentur Local • Inhaber: Petro Teperik • Sonnenberger Straße 32 • 65193 Wiesbaden • Tel.: +49 1520 1623222 • E-Mail: mastercleanpro.info@gmail.com • seoagenturlocal.de</p>
+      <p><strong>Impressum gem. § 5 DDG (Anbieter dieser Seite):</strong> SEO Agentur Local • Inhaber: Petro Teperik • Sonnenberger Straße 32 • 65193 Wiesbaden • Tel.: +49 1520 1623222 • E-Mail: info@seoagenturlocal.de • seoagenturlocal.de</p>
       <div class="footer-links"><a href="#datenschutz">Datenschutzerklärung</a></div>
     </div>
   </footer>
@@ -1496,25 +1541,18 @@
   <section id="datenschutz" class="legal">
     <div class="content-container">
       <h2>Datenschutzerklärung</h2>
-      <p><strong>Verantwortlicher</strong> (Art. 4 Nr. 7 DSGVO) ist der Anbieter dieser Seite: SEO Agentur Local • Inhaber: Petro Teperik • Sonnenberger Straße 32 • 65193 Wiesbaden • Tel.: +49 1520 1623222 • E-Mail: mastercleanpro.info@gmail.com • seoagenturlocal.de. Diese Seite ist ein Entwurf von SEO Agentur Local für Kerstin Ruschke.</p>
+      <p><strong>Verantwortlicher</strong> (Art. 4 Nr. 7 DSGVO) ist der Anbieter dieser Seite: SEO Agentur Local • Inhaber: Petro Teperik • Sonnenberger Straße 32 • 65193 Wiesbaden • Tel.: +49 1520 1623222 • E-Mail: info@seoagenturlocal.de • seoagenturlocal.de. Diese Seite ist ein Entwurf von SEO Agentur Local für Kerstin Ruschke.</p>
       <p><strong>Postkarte an Kerstin Ruschke.</strong> Firmenname, Name des Inhabers und Geschäftsanschrift haben wir öffentlich zugänglichen Quellen entnommen (Website von Kerstin Ruschke, Google-Suche, Google Maps). Wir nutzen sie nur, um Kerstin Ruschke diesen Entwurf per Postkarte anzubieten. Rechtsgrundlage: unser berechtigtes Interesse an Werbung für unsere Leistungen (Art. 6 Abs. 1 lit. f DSGVO). Empfänger: die Druckerei und die Deutsche Post für Druck und Versand. Sie können der Nutzung Ihrer Daten für Werbung jederzeit widersprechen (Art. 21 Abs. 2 DSGVO) — ein Anruf, eine E-Mail oder ein Brief an den Verantwortlichen oben genügt. Danach nutzen wir Ihre Daten nicht mehr für Werbung (Art. 21 Abs. 3 DSGVO) und vermerken nur, dass Sie keine Werbung wünschen. Ohne Widerspruch löschen wir die Angaben, sobald feststeht, dass kein Auftrag zustande kommt.</p>
       <p><strong>Hosting.</strong> Die Seite liegt bei GitHub Pages (GitHub, Inc., San Francisco, USA). Beim Aufruf verarbeitet GitHub technisch nötige Daten wie IP-Adresse, Zeitpunkt und Browser, um die Seite auszuliefern und abzusichern. Rechtsgrundlage: unser berechtigtes Interesse an einer sicheren Bereitstellung (Art. 6 Abs. 1 lit. f DSGVO).</p>
       <p><strong>Aufruf über den QR-Code der Postkarte.</strong> Öffnen Sie die Seite über den QR-Code, meldet sie den Aufruf an unseren Empfänger bei Google (Google Apps Script, Google LLC, USA): Name der Seite, Code der Postkarte, Smartphone oder Computer, Zeitpunkt. Wir erhalten darüber eine Nachricht über Telegram (Telegram FZ-LLC, Dubai, Vereinigte Arabische Emirate) und vermerken den Aufruf in unserer Liste. Zweck: zu erfahren, dass unsere Postkarte angekommen ist, um Kerstin Ruschke den Entwurf anzubieten. Rechtsgrundlage: unser berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO).</p>
       <p><strong>Anfrage zur Website.</strong> Senden Sie das Formular ab, übermitteln wir die eingetragene Telefonnummer auf demselben Weg (Google, Telegram), um Sie zurückzurufen. Rechtsgrundlage: Ihre Anfrage vor einem Vertrag (Art. 6 Abs. 1 lit. b DSGVO). Sie müssen keine Daten angeben; ohne Telefonnummer können wir Sie nicht zurückrufen.</p>
+      <p><strong>Schaltflächen „Anrufen“ und „WhatsApp“.</strong> Tippen Sie im Anfragefenster auf eine dieser Schaltflächen, meldet die Seite das auf demselben Weg (Google, Telegram) an uns: Name der Seite, Code der Postkarte, welche Schaltfläche, Smartphone oder Computer, Zeitpunkt. Zweck: zu erfahren, dass Kerstin Ruschke uns erreichen wollte, damit wir uns darum kümmern können. Rechtsgrundlage: unser berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO). „WhatsApp“ öffnet den Dienst der WhatsApp Ireland Limited; dort gelten deren Datenschutzhinweise. „Wer wir sind“ öffnet unsere Website seoagenturlocal.de und meldet nichts an uns.</p>
       <p><strong>Speicherung auf Ihrem Gerät.</strong> Nur wenn Sie „Akzeptieren“ wählen, speichert die Seite im lokalen Speicher Ihres Browsers den Code der Postkarte, den Zeitpunkt des ersten Aufrufs und Ihre Wahl, damit derselbe Aufruf nicht doppelt gemeldet wird. Ohne Ihre Zustimmung speichert die Seite nichts auf Ihrem Gerät. Rechtsgrundlage: Ihre Einwilligung (§ 25 Abs. 1 TDDDG, Art. 6 Abs. 1 lit. a DSGVO). Sie können sie jederzeit mit Wirkung für die Zukunft zurücknehmen (Art. 7 Abs. 3 DSGVO): <button type="button" onclick="hwConsent(false)">Einwilligung widerrufen</button></p>
       <p><strong>Drittländer.</strong> GitHub und Google sitzen in den USA: Grundlage ist der Angemessenheitsbeschluss der EU-Kommission zum EU-U.S. Data Privacy Framework, soweit der Empfänger danach zertifiziert ist, sonst Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO). Für die Vereinigten Arabischen Emirate (Telegram) gibt es keinen Angemessenheitsbeschluss.</p>
-      <p><strong>Speicherdauer.</strong> Meldungen zu Aufruf und Anfrage bewahren wir auf, solange wir mit Kerstin Ruschke über den Entwurf sprechen, und löschen sie danach, soweit keine gesetzliche Aufbewahrungspflicht besteht. Was die Seite auf Ihrem Gerät gespeichert hat, löschen Sie über die Schaltfläche oben oder in Ihrem Browser.</p>
+      <p><strong>Speicherdauer.</strong> Meldungen zu Aufruf, Schaltflächen und Anfrage bewahren wir auf, solange wir mit Kerstin Ruschke über den Entwurf sprechen, und löschen sie danach, soweit keine gesetzliche Aufbewahrungspflicht besteht. Was die Seite auf Ihrem Gerät gespeichert hat, löschen Sie über die Schaltfläche oben oder in Ihrem Browser.</p>
       <p><strong>Ihre Rechte.</strong> Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen die Verarbeitung aus berechtigtem Interesse (Art. 21 DSGVO) — wenden Sie sich dafür an den Verantwortlichen oben. Sie können sich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO). Eine automatisierte Entscheidung im Einzelfall findet nicht statt.</p>
     </div>
   </section>
-
-  <div class="consent-bar" id="consentBar" role="dialog" aria-label="Speicherung auf Ihrem Gerät">
-    <p><strong>Speicherung auf Ihrem Gerät:</strong> Darf diese Seite in Ihrem Browser speichern, dass Sie sie über den QR-Code unserer Postkarte geöffnet haben? So wird derselbe Aufruf nicht doppelt gezählt. Ohne Ihre Zustimmung speichert die Seite nichts auf Ihrem Gerät. <a href="#datenschutz">Datenschutzerklärung</a></p>
-    <div class="consent-actions">
-      <button type="button" onclick="hwConsent(true)">Akzeptieren</button>
-      <button type="button" onclick="hwConsent(false)">Ablehnen</button>
-    </div>
-  </div>
 
   <div class="sticky-bottom-bar">
     <div class="sticky-bottom-inner">
@@ -1605,9 +1643,9 @@
     function submitOwnerClaim(e) {
       e.preventDefault();
       var phone = document.getElementById('ownerClaimPhone').value;
-      var btn = document.getElementById('ownerClaimBtn');
+      var form = document.getElementById('ownerClaimForm');
       var succ = document.getElementById('ownerClaimSuccess');
-      if (btn) btn.style.display = 'none';
+      if (form) form.style.display = 'none';
       if (succ) succ.style.display = 'block';
       try {
         hwSignal('&action=claim_offer&phone=' + encodeURIComponent(phone));
@@ -1661,6 +1699,9 @@
     var tester = HW_TESTER ? '&tester=1' : '';
     new Image().src = HW_WEBHOOK + '?slug=' + encodeURIComponent(HW_SLUG) + '&k=' + encodeURIComponent(HW_KEY)
       + '&mobile=' + mobile + tester + (extra || '') + '&t=' + Date.now();
+  }
+  function hwPress(name) {
+    hwSignal('&action=button&button=' + name);
   }
   (function() {
     var consented = hwStored('hw_consent_' + HW_SLUG) === '1';
